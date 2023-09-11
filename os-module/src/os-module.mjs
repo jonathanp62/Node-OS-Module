@@ -29,15 +29,17 @@ export class OSModule {
             this.freeMemory,
             this.totalCpus,
             this.networkInfo
-        ]
+        ];
 
-        methods.forEach(method => method());
+        methods.forEach(method => method(this));
     }
 
     /**
      * Operating system characteristics.
+     *
+     * @param   {OSModule}  osModule
      */
-    currentOS() {
+    currentOS(osModule) {
         let currentOS = {
             name: os.type(),
             architecture: os.arch(),
@@ -51,36 +53,46 @@ export class OSModule {
 
     /**
      * The number of seconds the system has been up.
+     *
+     * @param   {OSModule}  osModule
      */
-    upTime() {
+    upTime(osModule) {
         console.log(`The server has been up for ${os.uptime()} seconds.`);
     }
 
     /**
      * User information.
+     *
+     * @param   {OSModule}  osModule
      */
-    currentUser() {
+    currentUser(osModule) {
         console.log(os.userInfo());
     }
 
     /**
      * Total memory.
+     *
+     * @param   {OSModule}  osModule
      */
-    totalMemory() {
+    totalMemory(osMOdule) {
         console.log(`Total memory: ${os.totalmem()}`);
     }
 
     /**
      * Free memory.
+     *
+     * @param   {OSModule}  osModule
      */
-    freeMemory() {
+    freeMemory(osModule) {
         console.log(`Free memory : ${os.freemem()}`);
     }
 
     /**
      * Total CPUs.
+     *
+     * @param   {OSModule}  osModule
      */
-    totalCpus() {
+    totalCpus(osModule) {
         let cpus = os.cpus();
 
         console.log(`There are ${cpus.length} CPUs`);
@@ -101,11 +113,44 @@ export class OSModule {
 
     /**
      * Network information.
+     *
+     * @param   {OSModule}  osModule
      */
-    networkInfo() {
+    networkInfo(osModule) {
         console.log(os.networkInterfaces());
-        /*
-         * This object needs to be picked apart
-         */
+
+        let network = os.networkInterfaces();
+
+        let lo0 = network.lo0;
+        let en0 = network.en0;
+        let utun0 = network.utun0;
+        let utun1 = network.utun1;
+        let utun2 = network.utun2;
+
+        osModule.logNetworkInterface(lo0, 'lo0');
+        osModule.logNetworkInterface(en0, 'en0');
+        osModule.logNetworkInterface(utun0, 'utun0');
+        osModule.logNetworkInterface(utun1, 'utun1');
+        osModule.logNetworkInterface(utun2, 'utun2');
+    }
+
+    /**
+     * Log the specified network interface.
+     *
+     * @param   {Array}     networkInterface
+     * @param   {string}    name
+     */
+    logNetworkInterface(networkInterface, name) {
+        console.log(`Handling network interface ${name}`);
+
+        networkInterface.forEach(netif => {
+            console.log(`Address : ${netif.address}`);
+            console.log(`Netmask : ${netif.netmask}`);
+            console.log(`Family  : ${netif.family}`);
+            console.log(`Mac     : ${netif.mac}`);
+            console.log(`Internal: ${netif.internal}`);
+            console.log(`CIDR    : ${netif.cidr}`);
+            console.log(`ScopeID : ${netif.scopeid}`);
+        });
     }
 }
