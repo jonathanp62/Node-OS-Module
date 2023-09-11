@@ -1,0 +1,12 @@
+{
+  "name": "os-module",
+  "version": "1.0.0",
+  "description": "Work with the OS module",
+  "main": "src/index.mjs",
+  "bin": {
+    "run": "./src/index.mjs"
+  },
+  "author": "Jonathan Parker",
+  "license": "ISC",
+  "type": "module"
+}
