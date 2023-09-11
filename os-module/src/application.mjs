@@ -7,7 +7,7 @@
  * All Rights Reserved.
  */
 
-//import { PathModule} from "./path-module.mjs";
+import { OSModule } from "./os-module.mjs";
 
 /**
  * The application class.
@@ -17,18 +17,6 @@ export class Application {
      * The run method.
      */
     run() {
-        console.log('Good morning');
-
-        /*
-        let pathModule = new PathModule(config);
-
-        pathModule.pathProperties();
-
-        try {
-            pathModule.pathMethods();
-        } catch (error) {
-            console.error(error);
-        }
-         */
+        new OSModule().osMethods();
     }
 }
